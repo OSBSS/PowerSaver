@@ -12,7 +12,7 @@ PowerSaver::PowerSaver()
   
 void PowerSaver::sleepInterruptSetup()
 {
-	SMCR = (1<<SE) | (1<<SM2) | (1<<SM1) | (1<<SM0);   // sleep pre-setup stuff
+	SMCR = (1<<SE) | (1<<SM1);  // sleep pre-setup stuff
   cli();
   PORTB |= (1<<PORTB0); //Activate pullup on PCINT
   PCICR |= (1<<PCIE0);
@@ -38,29 +38,48 @@ void PowerSaver::turnOnSPI()
 		  
   //****************************************************************
 
-void PowerSaver::turnOffADC()
+void PowerSaver::turnOffADC()  //Think about and add again later
 {
+/*
+	DDRC &= 0;
+	PORTC |= 1;
+  /*														//Unsure about best way to configure ADC pin before sleep/ after waking up
+	for(byte i=0;i<=A7;i++)
+	{
+		pinMode(i, INPUT);
+		digitalWrite(i, HIGH);
+	}
+	*/
   pinMode (A0, INPUT);
-  digitalWrite (A0, HIGH);
+  digitalWrite (A0, LOW);
   pinMode (A1, INPUT);
-  digitalWrite (A1, HIGH);
+  digitalWrite (A1, LOW);
   pinMode (A2, INPUT);
-  digitalWrite (A2, HIGH);
+  digitalWrite (A2, LOW);
   pinMode (A3, INPUT);
-  digitalWrite (A3, HIGH);
+  digitalWrite (A3, LOW);
   pinMode (A4, INPUT);
-  digitalWrite (A4, HIGH);
+  digitalWrite (A4, LOW);
   pinMode (A5, INPUT);
-  digitalWrite (A5, HIGH);
+  digitalWrite (A5, LOW);
   pinMode (A6, INPUT);
-  digitalWrite (A6, HIGH);
+  digitalWrite (A6, LOW);
   pinMode (A7, INPUT);
-  digitalWrite (A7, HIGH);
+  digitalWrite (A7, LOW);
   
   ADCSRA = 0;
 }
 		  
   //****************************************************************
+	
+void PowerSaver::turnOnADC()
+{
+	ADCSRA = 1;
+}
+	
+	//****************************************************************
+
+
 
 void PowerSaver::turnOffBOD()
 {

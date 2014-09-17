@@ -11,8 +11,8 @@ class PowerSaver
     void turnOffSPI();
     void turnOnSPI();
     void turnOffADC();
+		void turnOnADC();
     void turnOffBOD();
-    
   private:
   
 };
