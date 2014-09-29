@@ -38,55 +38,46 @@ void PowerSaver::turnOnSPI()
 		  
   //****************************************************************
 
-void PowerSaver::turnOffADC()  //Think about and add again later
+void PowerSaver::turnOffADC()
 {
-/*
-	DDRC &= 0;
-	PORTC |= 1;
-  /*														//Unsure about best way to configure ADC pin before sleep/ after waking up
-	for(byte i=0;i<=A7;i++)
-	{
-		pinMode(i, INPUT);
-		digitalWrite(i, HIGH);
-	}
-	*/
-  pinMode (A0, INPUT);
-  digitalWrite (A0, LOW);
-  pinMode (A1, INPUT);
-  digitalWrite (A1, LOW);
-  pinMode (A2, INPUT);
-  digitalWrite (A2, LOW);
-  pinMode (A3, INPUT);
-  digitalWrite (A3, LOW);
-  pinMode (A4, INPUT);
-  digitalWrite (A4, LOW);
-  pinMode (A5, INPUT);
-  digitalWrite (A5, LOW);
-  pinMode (A6, INPUT);
-  digitalWrite (A6, LOW);
-  pinMode (A7, INPUT);
-  digitalWrite (A7, LOW);
-  
-  ADCSRA = 0;
+	ADCSRA = ~(1<<ADEN); // This is the ADC enable bit. Writing it to 0 will turn off ADC
 }
 		  
   //****************************************************************
 	
 void PowerSaver::turnOnADC()
 {
-	ADCSRA = 1;
+	ADCSRA = (1<<ADEN); // This is the ADC enable bit. Writing it to 1 will turn on ADC
+}
+	
+	//****************************************************************
+  
+void PowerSaver::goodNight()
+{
+	d1 = DDRC;	// save direction of analog pins
+	p1 = PORTC; // save pinMode of analog pins
+	DDRC = 0;		// Setting all analog pins to INPUT 
+	PORTC = 0;	// Setting all analog pins to LOW (disable internal pull-ups)
+	
+  asm("sleep");  // this will put processor in power-down mode
 }
 	
 	//****************************************************************
 
-
+void PowerSaver::goodMorning()
+{
+	DDRC = d1;	// restore direction of analog pins
+	PORTC = p1;	// restore pinMode of analog pins
+}
+	
+	//****************************************************************
 
 void PowerSaver::turnOffBOD()
 {
-  // turn off brown-out enable in software
+  // turn off brown-out enable in software (temporary)
   MCUCR |= (1<<BODS) | (1<<BODSE);  // turn on brown-out enable select
   MCUCR |= (1<<BODS);        // this must be done within 4 clock cycles of above
-  MCUCR &= ~(1<<BODSE);
+  MCUCR &= ~(1<<BODSE); 	// the processor must sleep within 3 clock cycles after this or BOD disable is cancelled
 }
 
   //****************************************************************

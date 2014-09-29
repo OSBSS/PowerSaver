@@ -13,8 +13,11 @@ class PowerSaver
     void turnOffADC();
 		void turnOnADC();
     void turnOffBOD();
+		void goodNight();
+		void goodMorning();
   private:
-  
+		byte d1;
+		byte p1;
 };
 
 #endif
