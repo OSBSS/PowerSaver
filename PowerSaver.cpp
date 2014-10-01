@@ -40,34 +40,30 @@ void PowerSaver::turnOnSPI()
 
 void PowerSaver::turnOffADC()
 {
-	ADCSRA = ~(1<<ADEN); // This is the ADC enable bit. Writing it to 0 will turn off ADC
+	d1 = DDRC;	// save direction of analog pins
+	p1 = PORTC; // save pinMode of analog pins
+	adc = ADCSRA;  // save ADCSRA byte
+	DDRC = 0;		// Setting all analog pins to INPUT 
+	PORTC = 0;	// Setting all analog pins to LOW (disable internal pull-ups)
+	ADCSRA = 0;	// disable ADC
+	//ADCSRA = ~(1<<ADEN); // This is the ADC enable bit. Writing it to 0 will turn off ADC
 }
 		  
   //****************************************************************
 	
 void PowerSaver::turnOnADC()
 {
-	ADCSRA = (1<<ADEN); // This is the ADC enable bit. Writing it to 1 will turn on ADC
+	//ADCSRA = (1<<ADEN); // This is the ADC enable bit. Writing it to 1 will turn on ADC
+	DDRC = d1;	// restore direction of analog pins
+	PORTC = p1;	// restore pinMode of analog pins
+	ADCSRA = adc;		//restore ADCSRA byte
 }
 	
 	//****************************************************************
   
 void PowerSaver::goodNight()
 {
-	d1 = DDRC;	// save direction of analog pins
-	p1 = PORTC; // save pinMode of analog pins
-	DDRC = 0;		// Setting all analog pins to INPUT 
-	PORTC = 0;	// Setting all analog pins to LOW (disable internal pull-ups)
-	
   asm("sleep");  // this will put processor in power-down mode
-}
-	
-	//****************************************************************
-
-void PowerSaver::goodMorning()
-{
-	DDRC = d1;	// restore direction of analog pins
-	PORTC = p1;	// restore pinMode of analog pins
 }
 	
 	//****************************************************************
