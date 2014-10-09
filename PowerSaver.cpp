@@ -43,6 +43,7 @@ void PowerSaver::turnOffADC()
 	d1 = DDRC;	// save direction of analog pins
 	p1 = PORTC; // save pinMode of analog pins
 	adc = ADCSRA;  // save ADCSRA byte
+	delay(1);
 	DDRC = 0;		// Setting all analog pins to INPUT 
 	PORTC = 0;	// Setting all analog pins to LOW (disable internal pull-ups)
 	ADCSRA = 0;	// disable ADC
