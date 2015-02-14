@@ -13,11 +13,15 @@ class PowerSaver
     void turnOffADC();
 		void turnOnADC();
     void turnOffBOD();
+		void turnOffWDT();
+		void turnOnWDTInterrupt();
 		void goodNight();
+		
   private:
 		byte d1;
 		byte p1;
 		byte adc;
+		byte i2c;
 };
 
 #endif
