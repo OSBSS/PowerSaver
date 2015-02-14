@@ -14,10 +14,7 @@ class PowerSaver
 		void turnOnADC();
     void turnOffBOD();
 		void turnOffWDT();
-<<<<<<< HEAD
 		void turnOnWDTInterrupt();
-=======
->>>>>>> origin/master
 		void goodNight();
 		
   private:
