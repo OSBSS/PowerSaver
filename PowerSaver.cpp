@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 // OSBSS Power Saver library for Atmel ATmega328P.
 // Last updated - February 3, 2015
+=======
+// OSBSS Power Saver library for the ATmega328P.
+// Last updated - October 15, 2014
+>>>>>>> origin/master
 
 #include "Arduino.h"
 #include "PowerSaver.h"
@@ -32,9 +37,15 @@ void PowerSaver::sleepInterruptSetup()
 	
 void PowerSaver::turnOffSPI()
 {
+<<<<<<< HEAD
   PORTB |= ((1<<DDB5) | (1<<DDB4) | (1<<DDB3) | (1<<DDB2) | (1<<DDB1));  // set SPI pins (13, 12, 11, 10, 9) to HIGH
   DDRB &= ~((1<<DDB5) | (1<<DDB4) | (1<<DDB3) | (1<<DDB2) | (1<<DDB1));  // set SPI pins (13, 12, 11, 10, 9) to INPUT
 	SPCR = 0;  // reset SPI control register
+=======
+  PORTB |= ((1<<DDB5) | (1<<DDB4) | (1<<DDB3) | (1<<DDB2));
+  DDRB &= ~((1<<DDB5) | (1<<DDB4) | (1<<DDB3) | (1<<DDB2));  // Clear bits corresponding to data direction for SCK, MISO, MOSI, SS
+	SPCR = 0;
+>>>>>>> origin/master
 }
 	
   //****************************************************************
@@ -54,8 +65,8 @@ void PowerSaver::turnOffADC()
 	adc = ADCSRA;  // save ADCSRA byte
 	i2c = TWCR;		// save TWCR byte
 	delay(1);
-	DDRC = 0;		// Setting all analog pins to INPUT 
-	PORTC = 0;	// Setting all analog pins to LOW (disable internal pull-ups)
+	//DDRC = 0;		// Setting all analog pins to INPUT 
+	//PORTC = 0;	// Setting all analog pins to LOW (disable internal pull-ups)
 	ADCSRA = 0;	// disable ADC
 	TWCR = 0; // disable I2C
 	//ADCSRA = ~(1<<ADEN); // This is the ADC enable bit. Writing it to 0 will turn off ADC
@@ -84,6 +95,7 @@ void PowerSaver::turnOffBOD()
 
   //****************************************************************
 	
+<<<<<<< HEAD
 	void PowerSaver::turnOnWDTInterrupt()
 {
 	cli();		// Disable global interrupts
@@ -99,6 +111,8 @@ void PowerSaver::turnOffBOD()
 
    //****************************************************************
 	
+=======
+>>>>>>> origin/master
 void PowerSaver::turnOffWDT()
 {
 	cli();		// Disable global interrupts
