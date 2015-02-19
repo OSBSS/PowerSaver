@@ -1,5 +1,5 @@
 // OSBSS Power Saver library for Atmel ATmega328P.
-// Last updated - February 13, 2015
+// Last updated - February 18, 2015
 
 #include "Arduino.h"
 #include "PowerSaver.h"
@@ -19,12 +19,8 @@ void PowerSaver::sleepInterruptSetup()
   cli();	// disable global interrupts
 	//DDRB |= ~(1<<DDB0); // set pin D8 as INPUT
   PORTB |= (1<<PORTB0); //Activate pullup on pin D8
-	
-	//PCICR |= (1<<PCIE0) | (1<<PCIE2); // enable interrupts on PCINT[7:0] & PCINT[23:16]
   PCICR |= (1<<PCIE0); // enable interrupts on PCINT[7:0]
   PCMSK0 |= (1<<PCINT0); // pin change mask register for pin D8
-	//PCICR |= (1<<PCIE2); // enable interrupts on PCINT[23:16]
-	//PCMSK2 |= (1<<PCINT18); // pin change mask register for pin D2
   sei();	// enable global interrupts
 }
 
